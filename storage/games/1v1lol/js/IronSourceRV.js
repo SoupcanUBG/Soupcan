@@ -1,5 +1,6 @@
 window.InitRV = function InitRV(id) {
   $.getScript("https://static.ultra-rv.com/rv-min.js", function () {
+
     let userId = id === undefined ? "Guest" : id;
     let ironRV = IronRV.getInstance({
       applicationKey: "1-mb5whk",
@@ -22,10 +23,11 @@ window.InitRV = function InitRV(id) {
       ironRV.showAdBlockMessage();
     });
 
-    ironRV.addListener(IronRV.EVENTS.INIT_ERROR, function () {});
+    ironRV.addListener(IronRV.EVENTS.INIT_ERROR, function () {
+    });
 
     window.showRV = () => {
       ironRV.show();
     };
   });
-};
+}
