@@ -1,0 +1,37 @@
+{
+  "data": [
+    {
+      "name": "mathswatch",
+      "title": "MathsWatch",
+      "image_url": "icons/mathswatch.ico"
+    },
+    {
+      "name": "classroom",
+      "title": "Google Classroom",
+      "image": "icons/classroom.ico"
+    },
+    {
+      "name": "docs",
+      "title": "Google Docs",
+      "image": "https://example.com/image3.png"
+    },
+    {
+      "name": "gc4",
+      "title": "Title 4",
+      "image": "https://example.com/image4.png"
+    },
+    {
+      "name": "gc5",
+      "title": "Title 5",
+      "image": "https://example.com/image5.png"
+    },
+    {
+      "name": "gc6",
+      "title": "Title 6",
+      "image": "https://example.com/image6.png"
+    },
+    {
+      "name": "gc7",
+      "title": "Title 7",
+      "image": "https://example.com/image7.png"
+    }

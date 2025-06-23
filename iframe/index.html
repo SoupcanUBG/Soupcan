@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoupCan</title>
+    <link rel="icon" type="image/x-icon" href="/brand/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="/js/close-tab.js"></script>
+    <!-- meta data -->
+    <meta property="og:title" content="SoupCan">
+    <meta property="og:description" content="At SoupCan, we are dedicated to providing a comprehensive collection of educational resources designed to support students, educators, and lifelong learners.">
+    <meta property="og:image" content="/brand/favicon.ico">
+    <meta property="og:image:width" content="100">
+    <meta property="og:image:height" content="100">
+    <meta property="og:url" content="https://soupcan.pages.dev">
+    <!-- end meta data -->
+     <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if (window.location.hostname === "classroom.google.com.soupcan.site") {
+        // Change the page title
+        document.title = "Google Classroom";
+
+        // Change the tab icon
+        var iconLink = document.getElementById("tabIcon");
+        if (iconLink) {
+          iconLink.href = "/cloak/icons/classroom.ico";
+        } else {
+          // If no existing icon link, create one
+          var newIcon = document.createElement("link");
+          newIcon.rel = "icon";
+          newIcon.href = "/cloak/icons/classroom.ico";
+          newIcon.id = "tabIcon";
+          document.head.appendChild(newIcon);
+        }
+      }
+    });
+  </script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #111010;
+            color: white;
+            overflow: hidden;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #111010;
+            position: fixed;
+            top: 0;
+            height: 44px;
+            width: 100%;
+            z-index: 1000;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-links li {
+            margin-left: 20px;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            transition: background 0.3s;
+        }
+        .nav-links a:hover {
+            background: #575757;
+            border-radius: 4px;
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-direction: column;
+                display: none;
+                width: 100%;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                background: #111;
+            }
+            .navbar.active .nav-links {
+                display: flex;
+            }
+            .toggle {
+                display: block;
+                cursor: pointer;
+                color: white;
+                font-size: 24px;
+            }
+        }
+        .toggle {
+            display: none;
+        }
+        .site-main {
+            padding: 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+        iframe {
+            width: 75%;
+            height: 75vh;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 0 5px white;
+        }
+        .button-container {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            margin-right: 3px;
+        }
+        .fullscreen-button a, .refresh-button a, .export-button a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            transition: background 0.3s;
+        }
+        .fullscreen-button a:hover, .refresh-button a:hover, .export-button a:hover {
+            background: #575757;
+            border-radius: 4px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <nav class="navbar">
+        <div class="toggle" onclick="document.querySelector('.navbar').classList.toggle('active')">☰</div>
+        <ul class="nav-links">
+            <li><a href="/index.html"><i class="fa-solid fa-house"></i></a></li>
+            <li><a href="/g.html"><i class="fa-solid fa-gamepad"></i></a></li>
+            <li><a href="/a.html"><i class="fa-solid fa-table-cells"></i></a></li>
+            <li><a href="/s.html"><i class="fa-solid fa-cog"></i></a></li>
+            <li><a href="/p.html"><i class="fa-solid fa-handshake"></i></a></li>
+            <li><a href="/e/"><i class="fa-solid fa-plus"></i></a></li>
+        </ul>
+        <div class="button-container">
+            <div class="fullscreen-button">
+                <a href="#" id="fullscreenLink"><i class="fa-solid fa-expand"></i></a>
+            </div>
+            <div class="refresh-button">
+                <a href="#" id="refreshLink"><i class="fa-solid fa-arrows-rotate"></i></a>
+            </div>
+            <div class="export-button">
+                <a href="#" id="exportLink"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            </div>
+        </div>
+    </nav>
+    <main class="site-main">
+        <iframe id="myIframe" src="">Your browser does not support iframes.</iframe>
+    </main>
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const iframeSrc = urlParams.get('url');
+            if (iframeSrc) {
+                document.getElementById('myIframe').src = iframeSrc;
+                // Store the iframeSrc in sessionStorage to persist it across refreshes
+                sessionStorage.setItem('iframeSrc', iframeSrc);
+                window.history.replaceState(null, null, '/iframe/');
+            } else {
+                // If no URL parameter, check sessionStorage for the iframeSrc
+                const storedIframeSrc = sessionStorage.getItem('iframeSrc');
+                if (storedIframeSrc) {
+                    document.getElementById('myIframe').src = storedIframeSrc;
+                }
+            }
+        });
+
+        // Fullscreen functionality
+        document.getElementById('fullscreenLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            const myIframe = document.getElementById('myIframe');
+            if (!document.fullscreenElement) {
+                myIframe.requestFullscreen().catch(err => console.error("Error attempting to enable full-screen mode:", err.message));
+            } else {
+                document.exitFullscreen();
+            }
+        });
+
+        // Refresh functionality
+        document.getElementById('refreshLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            const myIframe = document.getElementById('myIframe');
+            myIframe.src = myIframe.src;
+        });
+
+        // Export functionality
+        document.getElementById('exportLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            const urlParams = new URLSearchParams(window.location.search);
+            const exportUrl = urlParams.get('url') || sessionStorage.getItem('iframeSrc');
+            if (exportUrl) {
+                window.location.href = exportUrl;
+            }
+        });
+
+        // Prevent the iframe from breaking when the refresh button is pressed
+        window.addEventListener('beforeunload', (event) => {
+            const myIframe = document.getElementById('myIframe');
+            const iframeSrc = myIframe.src;
+            sessionStorage.setItem('iframeSrc', iframeSrc);
+        });
+    </script>
+    <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyCIyaYwOuVtQiHFwN0ZZ5UGFou1DNT1JZc",
+    authDomain: "soupcan-69420.firebaseapp.com",
+    projectId: "soupcan-69420",
+    storageBucket: "soupcan-69420.firebasestorage.app",
+    messagingSenderId: "38099302506",
+    appId: "1:38099302506:web:cafeeb097583f1ce357213",
+    measurementId: "G-FNRE7F492Z"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+    <script src="/down/function.js"></script>
+</body>
+</html>

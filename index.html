@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JizzCan</title>
+    <link rel="icon" type="image/png" href="brand/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- meta data -->
+    <meta property="og:title" content="SoupCan">
+    <meta property="og:description" content="At SoupCan, we are dedicated to providing a comprehensive collection of educational resources designed to support students, educators, and lifelong learners.">
+    <meta property="og:image" content="/brand/favicon.ico">
+    <meta property="og:image:width" content="100">
+    <meta property="og:image:height" content="100">
+    <meta property="og:url" content="https://soupcan.site">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #111010; /* Background color */
+            color: white;
+            overflow: hidden; /* Prevent scrolling aight*/
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1; /* Keep particles behind other content */
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: flex-start;  
+            align-items: center;
+            background: #111010;
+            position: fixed;
+            top: 0;
+            height: 44px;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            margin-right: 20px; 
+        }
+
+        .logo img {
+            width: 40px;
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            transition: background 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: #575757;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-direction: column;
+                display: none;
+                width: 100%;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                background: #111;
+            }
+
+            .navbar.active .nav-links {
+                display: flex;
+            }
+
+            .toggle {
+                display: block;
+                cursor: pointer;
+                color: white;
+                font-size: 24px;
+            }
+        }
+
+        .toggle {
+            display: none;
+        }
+
+        .container {
+            display: flex; 
+            justify-content: center; 
+            padding: 20px;
+            margin-top: 70px; 
+        }
+
+        .image-item {
+            position: relative;
+            cursor: pointer;
+            text-align: center;
+            width: 80%; 
+            max-width: 150px; 
+            margin: 0 10px; 
+        }
+
+        .image-item img {
+            width: 100%;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+
+        .image-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .label {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        #searchbar {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 56px;
+            border: transparent;
+            background-color: #222222;
+        }
+        
+        #ua {
+            background-color: #222222;
+            color: #ffffff;
+            font-size: 1.5rem;
+            position: relative;
+            top: 50%;
+            left: 16px;
+            border: none;
+            outline: none;
+            transform: translate(0, -50%);
+            width: 526px;
+            height: 50px;
+            font-weight: bold;
+            color: #ffffff;
+            caret-color: #ffffff;
+        }
+
+        #ua::placeholder {
+            color: #ffffff;
+            opacity: 0.5;
+        }
+        
+        #search-icon {
+            top: 50%;
+            left: 10px;
+            transform: translate(0, -50%);
+            color: #FFFFFF;
+            position: relative;
+            font-size: 2rem;
+            height: 44px;
+        }
+
+        #uvf {
+            width: 100%;
+            height: calc(100% - 50px);
+            border: none;
+        }
+
+        #welcome {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .footer {
+            color: white;
+            text-align: center;
+            margin-top: 80vh;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .button {
+            background: #222121; /* Updated background color */
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            border: none;
+            height: 55px;
+            width: 125px;
+            cursor: pointer;
+            padding: 10px 20px;
+            margin-top: 55vh;
+            transition: background 0.3s;
+            display: flex; /* Added for icon alignment */
+            align-items: center; /* Added for icon alignment */
+            justify-content: center; /* Added for icon alignment */
+        }
+
+        .button:hover {
+            background: #333;
+        }
+
+        #discord-button {
+            background-color: #222121; /* Updated background color */
+        }
+
+        #games-button {
+            background-color: #222121; /* Updated background color */
+        }
+
+        /* Popup styles */
+        #popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            background-color: #333232;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            z-index: 1001;
+        }
+
+        #popup a {
+            color: white;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        #popup .close {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            cursor: pointer;
+        }
+        .big {
+            font-size: 30px;
+        }
+        .not {
+            margin-bottom: 10px;
+            margin-left: 10px;
+            font-family: ui-rounded;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Particles.js Container -->
+    <div id="particles-js"></div>
+
+    <nav class="navbar">
+        <div class="toggle" onclick="document.querySelector('.navbar').classList.toggle('active')">&#9776;</div>
+        <ul class="nav-links">
+            <li><a href="/index.html"><i class="fa-solid fa-house"></i></a></li>
+            <li><a href="/g.html"><i class="fa-solid fa-gamepad"></i></a></li>
+            <li><a href="/a.html"><i class="fa-solid fa-table-cells"></i></a></li>
+            <li><a href="/s.html"><i class="fa-solid fa-cog"></i></a></li>
+            <li><a href="/p.html"><i class="fa-solid fa-handshake"></i></a></li>
+            <li><a href="/e/"><i class="fa-solid fa-plus"></i></a></li>
+        </ul>
+    </nav>
+    <div id="welcome">
+        <h2>Welcome To Jizz Can</h2>
+    </div>
+    <form id="uf" autocomplete="off" autocapitalize="off">
+        <input id="us" value="https://duckduckgo.com/?q=%s" type="hidden">
+        <div id="searchbar">
+           <i class="fas fa-search" id="search-icon"></i>
+           <input id="ua" type="text" placeholder="Search or type a URL" class="form__input">
+        </div>
+        <!-- Updated buttons with icons -->
+    </form>
+    <div class="desc left-margin">
+        <p id="ue"></p>
+        <pre id="uc"></pre>
+    </div>
+
+    <!-- Popup HTML -->
+    <div id="popup">
+        <span class="close" onclick="closePopup()">x</span>
+        <p class="big">Looks like you are on the old website. <a onclick="redirectToNewSite()">Click here</a> to redirect.</p>
+    </div>
+    <a href="https://soupcan.site" class="not">soupcan.site</a>
+
+    <script>
+        document.querySelector('.toggle').addEventListener('click', function() {
+            document.querySelector('.navbar').classList.toggle('active');
+        });
+
+        // Check if the user is on the old website and show the popup if necessary
+        window.onload = function() {
+            if (window.location.hostname === 'soupcan.pages.dev') {
+                if (!localStorage.getItem('popupClosed')) {
+                    document.getElementById('popup').style.display = 'block';
+                }
+            }
+        };
+
+        function redirectToNewSite() {
+            window.location.href = 'https://soupcan.site';
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+            localStorage.setItem('popupClosed', 'true');
+        }
+    </script>
+
+    <script src="/app/uv/uv.bundle.js" charset="UTF-8" defer></script>
+    <script src="/app/uv/uv.config.js" charset="UTF-8" defer></script>
+    <script src="/app/worker.js" charset="UTF-8" defer></script>
+    <script src="/app/search.js" charset="UTF-8" defer></script>
+    <script src="/app/index.js" charset="UTF-8" defer></script>
+<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "6ba6cbbcac794f6384ff803e0366312d"}'></script><!-- End Cloudflare Web Analytics -->
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyCIyaYwOuVtQiHFwN0ZZ5UGFou1DNT1JZc",
+    authDomain: "soupcan-69420.firebaseapp.com",
+    projectId: "soupcan-69420",
+    storageBucket: "soupcan-69420.firebasestorage.app",
+    messagingSenderId: "38099302506",
+    appId: "1:38099302506:web:cafeeb097583f1ce357213",
+    measurementId: "G-FNRE7F492Z"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+    <script src="down/function.js"></script>
+</body>
+</html>

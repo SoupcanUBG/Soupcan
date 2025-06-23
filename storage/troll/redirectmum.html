@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RGB Animated Button with Background</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: url('me.jpg') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    .rainbow-button {
+      font-size: 24px;
+      font-weight: bold;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: white;
+      text-transform: uppercase;
+      text-align: center;
+      background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet);
+      background-size: 400%;
+      animation: glow 2s infinite, gradient 6s infinite linear;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
+      outline: none;
+      transition: transform 0.2s;
+    }
+
+    .rainbow-button:hover {
+      transform: scale(1.1);
+    }
+
+    @keyframes glow {
+      0% {
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
+      }
+      50% {
+        box-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 40px rgba(255, 255, 255, 0.9);
+      }
+      100% {
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
+      }
+    }
+
+    @keyframes gradient {
+      0% {
+        background-position: 0%;
+      }
+      100% {
+        background-position: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="rainbow-button" onclick="window.location.href='https://docs.google.com/document/d/e/2PACX-1vQz-ury_We-ua7NsDmzN5fzFS5p22AuRM9jsbKkKlQQGVYB8umViqa2eGIuPXYvbIq2-8qPNKlVs8nF/pub';">
+    Click Here Mum
+  </button>
+</body>
+</html>
