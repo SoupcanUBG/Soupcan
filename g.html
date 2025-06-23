@@ -12,29 +12,6 @@
     <meta property="og:image:width" content="100">
     <meta property="og:image:height" content="100">
 
-    <!-- end meta data -->
-     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      if (window.location.hostname === "classroom.google.com.soupcan.site") {
-        // Change the page title
-        document.title = "Google Classroom";
-
-        // Change the tab icon
-        var iconLink = document.getElementById("tabIcon");
-        if (iconLink) {
-          iconLink.href = "/cloak/icons/classroom.ico";
-        } else {
-          // If no existing icon link, create one
-          var newIcon = document.createElement("link");
-          newIcon.rel = "icon";
-          newIcon.href = "/cloak/icons/classroom.ico";
-          newIcon.id = "tabIcon";
-          document.head.appendChild(newIcon);
-        }
-      }
-    });
-  </script>
-
     <style>
         body {
             margin: 0;
