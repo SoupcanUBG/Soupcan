@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JizzCan</title>
+    <title>SoupCan</title>
     <link rel="icon" type="image/png" href="brand/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
@@ -300,7 +300,7 @@
         </ul>
     </nav>
     <div id="welcome">
-        <h2>Welcome To Jizz Can</h2>
+        <h2>Welcome To SoupCan</h2>
     </div>
     <form id="uf" autocomplete="off" autocapitalize="off">
         <input id="us" value="https://duckduckgo.com/?q=%s" type="hidden">
@@ -326,24 +326,6 @@
         document.querySelector('.toggle').addEventListener('click', function() {
             document.querySelector('.navbar').classList.toggle('active');
         });
-
-        // Check if the user is on the old website and show the popup if necessary
-        window.onload = function() {
-            if (window.location.hostname === 'soupcan.pages.dev') {
-                if (!localStorage.getItem('popupClosed')) {
-                    document.getElementById('popup').style.display = 'block';
-                }
-            }
-        };
-
-        function redirectToNewSite() {
-            window.location.href = 'https://soupcan.site';
-        }
-
-        function closePopup() {
-            document.getElementById('popup').style.display = 'none';
-            localStorage.setItem('popupClosed', 'true');
-        }
     </script>
 
     <script src="/app/uv/uv.bundle.js" charset="UTF-8" defer></script>
@@ -351,30 +333,4 @@
     <script src="/app/worker.js" charset="UTF-8" defer></script>
     <script src="/app/search.js" charset="UTF-8" defer></script>
     <script src="/app/index.js" charset="UTF-8" defer></script>
-<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "6ba6cbbcac794f6384ff803e0366312d"}'></script><!-- End Cloudflare Web Analytics -->
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyCIyaYwOuVtQiHFwN0ZZ5UGFou1DNT1JZc",
-    authDomain: "soupcan-69420.firebaseapp.com",
-    projectId: "soupcan-69420",
-    storageBucket: "soupcan-69420.firebasestorage.app",
-    messagingSenderId: "38099302506",
-    appId: "1:38099302506:web:cafeeb097583f1ce357213",
-    measurementId: "G-FNRE7F492Z"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
-    <script src="down/function.js"></script>
-</body>
 </html>
