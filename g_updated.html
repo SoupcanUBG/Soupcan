@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SoupCan</title>
+    <link rel="icon" type="image/x-icon" href="/brand/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- meta data -->
+    <meta property="og:title" content="SoupCan">
+    <meta property="og:description" content="At SoupCan, we are dedicated to providing a comprehensive collection of educational resources designed to support students, educators, and lifelong learners.">
+    <meta property="og:image" content="/brand/favicon.ico">
+    <meta property="og:image:width" content="100">
+    <meta property="og:image:height" content="100">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #111010;
+            color: white;
+            overflow: auto;
+        }
+        .navbar {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            background: #111010;
+            position: fixed;
+            top: 0;
+            height: 44px;
+            width: 100%;
+            z-index: 1000;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-links li {
+            margin-left: 20px;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            transition: background 0.3s;
+        }
+        .nav-links a:hover {
+            background: #575757;
+            border-radius: 4px;
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-direction: column;
+                display: none;
+                width: 100%;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                background: #111;
+            }
+            .navbar.active .nav-links {
+                display: flex;
+            }
+            .toggle {
+                display: block;
+                cursor: pointer;
+                color: white;
+                font-size: 24px;
+            }
+        }
+        .toggle {
+            display: none;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            margin-top: 60px;
+            flex-wrap: wrap;
+            overflow-x: auto;
+        }
+        .image-item {
+            position: relative;
+            cursor: pointer;
+            text-align: center;
+            width: 80%;
+            max-width: 150px;
+            margin: 0 10px;
+        }
+        .image-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.3s, filter 0.3s;
+        }
+        .image-item:hover img {
+            transform: scale(1.05);
+            filter: blur(3px);
+        }
+        .label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.3s;
+        }
+        .image-item:hover .label {
+            visibility: visible;
+            opacity: 1;
+        }
+        .app-item {
+            margin-top: 30px;
+        }
+        #game-search-form {
+            text-align: center;
+            margin-top: 60px;
+            border-radius: 10px;
+        }
+        #game-searchbar {
+            display: inline-block;
+            position: relative;
+            width: 300px;
+            height: 40px;
+            border: transparent;
+            background-color: #222222;
+            border-radius: 10px;
+        }
+        #game-search-input {
+            width: calc(100% - 40px);
+            height: 100%;
+            padding-left: 40px;
+            border: none;
+            outline: none;
+            background-color: #222222;
+            color: #FFF;
+            font-size: 1rem;
+            border-radius: 10px;
+        }
+        #game-search-icon {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translate(0, -50%);
+            color: #FFFFFF;
+            font-size: 1.5rem;
+        }
+        /* Star Button Styles */
+        #star-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            font-size: 40px;
+            cursor: pointer;
+            color: white;
+            transition: color 0.3s;
+        }
+
+        #star-button.filled {
+            color: white;
+        }
+    </style>
+    <script src="/js/close-tab.js"></script>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <nav class="navbar">
+        <div class="toggle" onclick="document.querySelector('.navbar').classList.toggle('active')">☰</div>
+        <ul class="nav-links">
+            <li><a href="/index.html"><i class="fa-solid fa-house"></i></a></li>
+            <li><a href="/g.html"><i class="fa-solid fa-gamepad"></i></a></li>
+            <li><a href="/a.html"><i class="fa-solid fa-table-cells"></i></a></li>
+            <li><a href="/s.html"><i class="fa-solid fa-cog"></i></a></li>
+            <li><a href="/p.html"><i class="fa-solid fa-handshake"></i></a></li>
+            <li><a href="/e/"><i class="fa-solid fa-plus"></i></a></li>
+        </ul>
+    </nav>
+    <form id="game-search-form" autocomplete="off" autocapitalize="off">
+        <div id="game-searchbar">
+            <i class="fas fa-search" id="game-search-icon"></i>
+            <input id="game-search-input" type="text" placeholder="Search games">
+        </div>
+    </form>
+    <div class="container">
+        <div class="image-item app-item" data-label="Request A Game">
+            <a href="/iframe/?url=/storage/form">
+                <img src="/storage/form.png" alt="Request A Game">
+                <div class="label">Request A Game</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Slope">
+            <a href="/iframe/?url=/storage/g/slope/">
+                <img src="/storage/g/slope/slope.png" alt="Slope">
+                <div class="label">Slope</div>
+            </a>
+        </div>
+    
+        <div class="image-item app-item" data-label="2D Rocket League">
+            <a href="/iframe/?url=/storage/g/2drocket/">
+                <img src="/storage/g/2drocket/2drocket.png" alt="2D Rocket League">
+                <div class="label">2D Rocket League</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="1 On 1 Soccer">
+            <a href="/iframe/?url=/storage/g/1on1soccer/">
+                <img src="/storage/g/1on1soccer/logo.png" alt="1 On 1 Soccer">
+                <div class="label">1 On 1 Soccer</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Worlds Hardest Game">
+            <a href="/iframe/?url=/storage/g/worldshardestgame/">
+                <img src="/storage/g/worldshardestgame/logo.png" alt="World's Hardest Game">
+                <div class="label">World's Hardest Game</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Worlds Hardest Game 2">
+            <a href="/iframe/?url=/storage/g/worldshardestgame2/">
+                <img src="/storage/g/worldshardestgame2/logo.png" alt="World's Hardest Game 2">
+                <div class="label">World's Hardest Game 2</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Cubefield">
+            <a href="/iframe/?url=/storage/g/cubefield/">
+                <img src="/storage/g/cubefield/logo.png" alt="Cubefield">
+                <div class="label">Cubefield</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Backrooms" id="fav">
+            <a href="/iframe/?url=/storage/g/backrooms/">
+                <img src="/storage/g/backrooms/logo.png" alt="Backrooms">
+                <div class="label">backrooms</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Baldis Basics">
+            <a href="/iframe/?url=/storage/g/baldisbasics/">
+                <img src="/storage/g/baldisbasics/icon.png" alt="Baldi's Basics">
+                <div class="label">Baldi's Basics</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Duck Life 1">
+            <a href="/iframe/?url=/storage/g/ducklife1/">
+                <img src="/storage/g/ducklife1/logo.png" alt="Duck Life 1">
+                <div class="label">Duck Life 1</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Duck Life 2">
+            <a href="/iframe/?url=/storage/g/ducklife2/">
+                <img src="/storage/g/ducklife2/ducklife2.png" alt="Duck Life 2">
+                <div class="label">Duck Life 2</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Duck Life 3">
+            <a href="/iframe/?url=/storage/g/ducklife3/">
+                <img src="/storage/g/ducklife3/icon.png" alt="Duck Life 3">
+                <div class="label">Duck Life 3</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Duck Life 4">
+            <a href="/iframe/?url=/storage/g/ducklife4/">
+                <img src="/storage/g/ducklife4/IMG_5310.png" alt="Duck Life 4">
+                <div class="label">Duck Life 4</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Bad Ice Cream 1">
+            <a href="/iframe/?url=/storage/g/badicecream/">
+                <img src="/storage/g/badicecream/icon.png" alt="Bad Ice Cream 1">
+                <div class="label">Bad Ice Cream 1</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Bad Ice Cream 2">
+            <a href="/iframe/?url=/storage/g/badicecream2/">
+                <img src="/storage/g/badicecream2/bad-ice-cream-2.png" alt="Bad Ice Cream 2">
+                <div class="label">Bad Ice Cream 2</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Bad Ice Cream 3">
+            <a href="/iframe/?url=/storage/g/badicecream3/">
+                <img src="/storage/g/badicecream3/bad-ice-cream-3.png" alt="Bad Ice Cream 3">
+                <div class="label">Bad Ice Cream 3</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Dante">
+            <a href="/iframe/?url=/storage/g/dante/">
+                <img src="/storage/g/dante/splash.png" alt="Dante">
+                <div class="label">Dante</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="BTD 1">
+            <a href="/iframe/?url=/storage/g/btd1/">
+                <img src="/storage/g/btd1/logo.png" alt="BTD 1">
+                <div class="label">BTD 1</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="BTD 2">
+            <a href="/iframe/?url=/storage/g/btd2/">
+                <img src="/storage/g/btd2/logo.png" alt="BTD 2">
+                <div class="label">BTD 2</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="BTD 3">
+            <a href="/iframe/?url=/storage/g/btd3/">
+                <img src="/storage/g/btd3/logo.png" alt="BTD 3">
+                <div class="label">BTD 3</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="BTD 4">
+            <a href="/iframe/?url=/storage/g/btd4/">
+                <img src="/storage/g/btd4/logo.png" alt="BTD 4">
+                <div class="label">BTD 4</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="BTD 5">
+            <a href="/iframe/?url=/storage/g/btd5/">
+                <img src="/storage/g/btd5/logo.png" alt="BTD 5">
+                <div class="label">BTD 5</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Happy Wheels">
+            <a href="/iframe/?url=/storage/g/happywheels/">
+                <img src="/storage/g/happywheels/logo.png" alt="Happy Wheels">
+                <div class="label">Happy Wheels</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="ovo">
+            <a href="/iframe/?url=/storage/g/ovo/">
+                <img src="/storage/g/ovo/logo.png" alt="0v0">
+                <div class="label">0v0</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="2020">
+            <a href="/iframe/?url=/storage/g/2020/">
+                <img src="/storage/g/2020/images.png" alt="2020">
+                <div class="label">2020</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Cluster Rush" id="fav">
+            <a href="/iframe/?url=/storage/g/clusterrush/">
+                <img src="/storage/g/clusterrush/icon.jpg" alt="Cluster Rush">
+                <div class="label">Cluster Rush</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Just One Boss">
+            <a href="/iframe/?url=/storage/g/justoneboss/">
+                <img src="/storage/g/justoneboss/icon.jpg" alt="Just One Boss">
+                <div class="label">Just One Boss</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Basket Random">
+            <a href="/iframe/?url=/storage/g/basketrandom/">
+                <img src="/storage/g/basketrandom/icon.png" alt="Basket Random">
+                <div class="label">Basket Random</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Soccer Random">
+            <a href="/iframe/?url=/storage/g/soccerrandom/">
+                <img src="/storage/g/soccerrandom/icon.jpeg" alt="Soccer Random">
+                <div class="label">Soccer Random</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Volley Random">
+            <a href="/iframe/?url=/storage/g/volleyrandom/">
+                <img src="/storage/g/volleyrandom/logo.png" alt="Volley Random">
+                <div class="label">Volley Random</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Boxing Random">
+            <a href="/iframe/?url=/storage/g/boxingrandom/">
+                <img src="/storage/g/boxingrandom/icon.jpeg" alt="Boxing Random">
+                <div class="label">Boxing Random</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Big Tower Tiny Square">
+            <a href="/iframe/?url=/storage/g/bigtowertinysquare/">
+                <img src="/storage/g/bigtowertinysquare/ico.png" alt="Big Tower Tiny Square">
+                <div class="label">Big Tower Tiny Square</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Riddle School 1">
+            <a href="/iframe/?url=/storage/g/riddleschool1/">
+                <img src="/storage/g/riddleschool1/itsbig.jpg" alt="Riddle School 1">
+                <div class="label">Riddle School 1</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Riddle School 2">
+            <a href="/iframe/?url=/storage/g/riddleschool2/">
+                <img src="/storage/g/riddleschool1/itsbig.jpg" alt="Riddle School 2">
+                <div class="label">Riddle School 2</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Riddle School 3">
+            <a href="/iframe/?url=/storage/g/riddleschool3/">
+                <img src="/storage/g/riddleschool1/itsbig.jpg" alt="Riddle School 3">
+                <div class="label">Riddle School 3</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Riddle School 4">
+            <a href="/iframe/?url=/storage/g/riddleschool4/">
+                <img src="/storage/g/riddleschool1/itsbig.jpg" alt="Riddle School 4">
+                <div class="label">Riddle School 4</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Riddle School 5">
+            <a href="/iframe/?url=/storage/g/riddleschool5/">
+                <img src="/storage/g/riddleschool1/itsbig.jpg" alt="Riddle School 5">
+                <div class="label">Riddle School 5</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="2048 Flappy Bird">
+            <a href="/iframe/?url=/storage/g/2048flappybird/">
+                <img src="/storage/g/2048flappybird/log.png" alt="2048 Flappy Bird">
+                <div class="label">2048 Flappy Bird</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Sniper Shot">
+            <a href="/iframe/?url=/storage/g/snipershot/">
+                <img src="/storage/g/snipershot/logo.png" alt="Sniper Shot">
+                <div class="label">Sniper Shot</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Polytrack" id="fav">
+            <a href="/iframe/?url=/storage/g/polytrack/">
+                <img src="/storage/g/polytrack/logo.jpg" alt="Polytrack">
+                <div class="label">Polytrack</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Geometry Dash Lite">
+            <a href="/iframe/?url=/storage/g/gdlite/">
+                <img src="/storage/g/gdlite/icon.png" alt="Geometry Dash Lite">
+                <div class="label">Geometry Dash Lite</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Gimme The Airpod">
+            <a href="/iframe/?url=/storage/g/gimmetheairpod/">
+                <img src="/storage/g/gimmetheairpod/logo.png" alt="Gimme The Airpod">
+                <div class="label">Gimme The Airpod</div>
+            </a>
+        </div>
+    
+        <div class="image-item app-item" data-label="Time Shooter 3">
+            <a href="/iframe/?url=/storage/g/timeshooter3/">
+                <img src="/storage/g/timeshooter3/logo.png" alt="Time Shooter 3">
+                <div class="label">Time Shooter 3</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Among Us">
+            <a href="/iframe/?url=/storage/g/among-us/">
+                <img src="/storage/g/among-us/red.png" alt="Among Us">
+                <div class="label">Among Us</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Bloxorz">
+            <a href="/iframe/?url=/storage/g/bloxors/">
+                <img src="/storage/g/bloxors/block.png" alt="Bloxorz">
+                <div class="label">Bloxorz</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Bad Piggies">
+            <a href="/iframe/?url=/storage/g/badpiggy/">
+                <img src="/storage/g/badpiggy/badpiggies.png" alt="Bad Piggies">
+                <div class="label">Bad Piggies</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Red Ball 4">
+            <a href="/iframe/?url=/storage/g/redball4/">
+                <img src="/storage/g/redball4/logo.png" alt="Red Ball 4">
+                <div class="label">Red Ball 4</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Achievement Unlocked">
+            <a href="/iframe/?url=/storage/g/au/">
+                <img src="/storage/g/au/icon.png" alt="Achievement Unlocked">
+                <div class="label">Achievement Unlocked</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Achievement Unlocked 2">
+            <a href="/iframe/?url=/storage/g/au2/">
+                <img src="/storage/g/au2/icon.png" alt="Achievement Unlocked 2">
+                <div class="label">Achievement Unlocked 2</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Snow Rider 3D">
+            <a href="/iframe/?url=/storage/g/snowrider/">
+                <img src="/storage/g/snowrider/logo.png" alt="Snow Rider 3D">
+                <div class="label">Snow Rider 3D</div>
+            </a>
+        </div>
+         <div class="image-item app-item" data-label="Horde Killer">
+            <a href="/iframe/?url=/storage/g/hordekiller/">
+                <img src="/storage/g/hordekiller/logo.png" alt="Horde Killer">
+                <div class="label">Horde Killer</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="The Impossible Quiz">
+            <a href="/iframe/?url=/storage/g/impossiblequiz/">
+                <img src="/storage/g/impossiblequiz/logo.jpg" alt="The Impossible Quiz">
+                <div class="label">The Impossible Quiz</div>
+            </a>
+        </div>
+         <div class="image-item app-item" data-label="The Impossible Quiz 2">
+            <a href="/iframe/?url=/storage/g/impossiblequiz2/">
+                <img src="/storage/g/impossiblequiz2/logo.png" alt="The Impossible Quiz 2">
+                <div class="label">The Impossible Quiz 2</div>
+            </a>
+        </div>
+         <div class="image-item app-item" data-label="Stickman Hook">
+            <a href="/iframe/?url=/storage/g/stickmanhook/">
+                <img src="/storage/g/stickmanhook/icon.jpeg" alt="Stickman Hook">
+                <div class="label">Stickman Hook</div>
+            </a>
+        </div>
+         <div class="image-item app-item" data-label="Eaglercraft" id="fav">
+            <a href="/storage/g/eaglercraft/">
+                <img src="/storage/g/eaglercraft/logo.png" alt="Eaglercraft">
+                <div class="label">Eaglercraft</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Slow Roads">
+            <a href="/iframe/?url=/storage/g/slowroads/">
+                <img src="/storage/g/slowroads/logo.jpeg" alt="Slow Roads">
+                <div class="label">Slow Roads</div>
+            </a>
+        </div>
+          <div class="image-item app-item" data-label="Drift Hunters" id="fav">
+            <a href="/iframe/?url=/storage/g/drifthunters/">
+                <img src="/storage/g/drifthunters/icon.png" alt="Drift Hunters">
+                <div class="label">Drift Hunters</div>
+            </a>
+        </div>
+         <div class="image-item app-item" data-label="A Dance Of Fire And Ice" data-label="ADOFAI">
+            <a href="/iframe/?url=/storage/g/adofai/">
+                <img src="/storage/g/adofai/splash.png" alt="A Dance Of Fire And Ice">
+                <div class="label">A Dance Of Fire And Ice</div>
+            </a>
+        </div>
+         <div class="image-item app-item" data-label="Cookie Clicker">
+            <a href="/storage/g/cookieclicker/">
+                <img src="/storage/g/cookieclicker/icon.jpg" alt="Cookie Clicker">
+                <div class="label">Cookie Clicker</div>
+            </a>
+        </div>
+         <div class="image-item app-item" data-label="Drift Boss">
+            <a href="/iframe/?url=/storage/g/driftboss/">
+                <img src="/storage/g/driftboss/icon.jpg" alt="Drift Boss">
+                <div class="label">Drift Boss</div>
+            </a>
+        </div>
+         <div class="image-item app-item" data-label="Granny" id="fav">
+            <a href="/iframe/?url=/app/soup-can/hvtrs8%2F-sx-eaoeq.eivhwb%2Cim%2FEaoeq8-GPALN%5B%2F">
+                <img src="/storage/g/Granny/images.jpeg" alt="Granny">
+                <div class="label">Granny</div>
+            </a>
+        </div>
+         <div class="image-item app-item" data-label="Cut The Rope">
+            <a href="/iframe/?url=/storage/g/cuttherope/">
+                <img src="/storage/g/cuttherope/icon.png" alt="Cut The Rope">
+                <div class="label">Cut The Rope</div>
+            </a>
+        </div>
+         <div class="image-item app-item" data-label="Papas Pizzeria">
+            <a href="/iframe/?url=/storage/g/papaspizzeria/">
+                <img src="/storage/g/papaspizzeria/icon.png" alt="Papas Pizzeria">
+                <div class="label">Papas Pizzeria</div>
+            </a>
+        </div>
+         <div class="image-item app-item" data-label="Papas Burgeria">
+            <a href="/iframe/?url=/storage/g/papasburgeria/">
+                <img src="/storage/g/papasburgeria/icon.png" alt="Papas Burgeria">
+                <div class="label">Papas Burgeria</div>
+            </a>
+        </div>
+         <div class="image-item app-item" data-label="Papas Taco Mia">
+            <a href="/iframe/?url=/storage/g/papastacomia/">
+                <img src="/storage/g/papastacomia/icon.png" alt="Papas Taco Mia">
+                <div class="label">Papas Taco Mia</div>
+            </a>
+        </div>
+         <div class="image-item app-item" data-label="Papas Freezeria">
+            <a href="/iframe/?url=/storage/g/papasfreezeria/">
+                <img src="/storage/g/papasfreezeria/icon.png" alt="Papas Freezeria">
+                <div class="label">Papas Freezeria</div>
+            </a>
+        </div>
+         <div class="image-item app-item" data-label="Papas Pancakeria">
+            <a href="/iframe/?url=/storage/g/papaspancakeria/">
+                <img src="/storage/g/papaspancakeria/icon.png" alt="Papas Pancakeria">
+                <div class="label">Papas Pancakeria</div>
+            </a>
+        </div>
+          <div class="image-item app-item" data-label="Papas Wingeria">
+            <a href="/iframe/?url=/storage/g/papaswingeria/">
+                <img src="/storage/g/papaswingeria/icon.png" alt="Papas Wingeria">
+                <div class="label">Papas Wingeria</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Papas Hot Doggeria">
+            <a href="/iframe/?url=/storage/g/papashotdoggeria/">
+                <img src="/storage/g/papashotdoggeria/icon.png" alt="Papas Hot Doggeria">
+                <div class="label">Papas Hot Doggeria</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Papas Cupcakeria">
+            <a href="/iframe/?url=/storage/g/papascupcakeria/">
+                <img src="/storage/g/papascupcakeria/icon.png" alt="Papas Cupcakeria">
+                <div class="label">Papas Cupcakeria</div>
+            </a>
+        </div>
+         <div class="image-item app-item" data-label="Papas Pastaria">
+            <a href="/iframe/?url=/storage/g/papaspastaria/">
+                <img src="/storage/g/papaspastaria/icon.png" alt="Papas Pastaria">
+                <div class="label">Papas Pastaria</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Papas Donuteria">
+            <a href="/iframe/?url=/storage/g/papasdonuteria/">
+                <img src="/storage/g/papasdonuteria/icon.png" alt="Papas Donuteria">
+                <div class="label">Papas Donuteria</div>
+            </a>
+        </div>
+         <div class="image-item app-item" data-label="Papas Cheeseria">
+            <a href="/iframe/?url=/storage/g/papascheeseria/">
+                <img src="/storage/g/papascheeseria/icon.png" alt="Papas Cheeseria">
+                <div class="label">Papas Cheeseria</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Papas Bakeria">
+            <a href="/iframe/?url=/storage/g/papasbakeria/">
+                <img src="/storage/g/papasbakeria/icon.png" alt="Papas Bakeria">
+                <div class="label">Papas Bakeria</div>
+            </a>
+        </div>
+          <div class="image-item app-item" data-label="Papas Sushiria">
+            <a href="/iframe/?url=/storage/g/papassushiria/">
+                <img src="/storage/g/papassushiria/icon.png" alt="Papas Sushiria">
+                <div class="label">Papas Sushiria</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Papas Scooperia">
+            <a href="/iframe/?url=/storage/g/papasscooperia/">
+                <img src="/storage/g/papasscooperia/icon.png" alt="Papas Scooperia">
+                <div class="label">Papas Scooperia</div>
+            </a>
+        </div>
+         <div class="image-item app-item" data-label="Papas Mocharia">
+            <a href="/iframe/?url=/storage/g/papasmocharia/">
+                <img src="/storage/g/papasmocharia/icon.png" alt="Papas Mocharia">
+                <div class="label">Papas Mocharia</div>
+            </a>
+        </div>
+         <div class="image-item app-item" data-label="CSGO Clicker">
+            <a href="/iframe/?url=/storage/g/csgoclicker/">
+                <img src="/storage/g/csgoclicker/icon.png" alt="CSGO Clicker">
+                <div class="label">CSGO Clicker</div>
+            </a>
+        </div>
+         <div class="image-item app-item" data-label="Nazi Zombies" id="fav">
+            <a href="/iframe/?url=/storage/g/nzp/index.html">
+                <img src="/storage/g/nzp/logo.png" alt="Nazi Zombies">
+                <div class="label">Nazi Zombies</div>
+            </a>
+        </div>
+         <div class="image-item app-item" data-label="Alien Hominid">
+            <a href="/iframe/?url=/storage/g/alienhomicide/">
+                <img src="/storage/g/alienhomicide/icon.png" alt="Alien Hominid">
+                <div class="label">Alien Hominid</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Counter strike" id="fav">
+            <a href="/iframe/?url=/storage/g/counter-strike/">
+                <img src="/storage/g/counter-strike/logo.png" alt="Counter strike">
+                <div class="label">Counter strike</div>
+            </a>
+        </div>
+         <div class="image-item app-item" data-label="Rocket League" id="fav">
+            <a href="/iframe/?url=/storage/g/rocket-league/">
+                <img src="/storage/g/rocket-league/icon.png" alt="Rocket League">
+                <div class="label">Rocket League</div>
+            </a>
+        </div>
+          <div class="image-item app-item" data-label="Territorial IO">
+            <a href="/iframe/?url=/storage/g/territory/">
+                <img src="/storage/g/territory/icon.png" alt="Territorial IO">
+                <div class="label">Territorial IO</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Just Fall LOL">
+            <a href="/iframe/?url=/storage/g/justfall/">
+                <img src="/storage/g/justfall/icon.jpg" alt="Just Fall LOL">
+                <div class="label">Just Fall LOL</div>
+            </a>
+        </div>
+         <div class="image-item app-item" data-label="Crazy Cattle 3D" id="fav">
+            <a href="/iframe/?url=https://soupcan.site/app/soup-can/hvtrs8%2F-kmrgnqcpirt%2Cgktju%60.ko-cctvlg3f%2F">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9mJmLmSaCGc0qRItFIxnTD0jyNd3IKCbjZQ&s" alt="Crazy Cattle 3D">
+                <div class="label">Crazy Cattle 3D</div>
+            </a>
+        </div>
+        <div class="image-item app-item" data-label="Eggy Car">
+            <a href="/iframe/?url=/storage/g/eggy-car/">
+                <img src="/storage/g/eggy-car/icon-256.png" alt="Eggy Car">
+                <div class="label">Eggy Car</div>
+            </a>
+        </div>
+	<div class="image-item app-item" data-label="Monkey Mart">
+		<a href="/iframe/?url=/storage/g/monkey-mart/">
+			<img src="/storage/g/monkey-mart/unnamed.png" alt="Monkey Mart">
+			<div class="label">Monkey Mart</div>
+	    </a>
+	</div>
+	<div class="image-item app-item" data-label="Tiny Fishing">
+		<a href="/iframe/?url=/storage/g/tiny-fishing/">
+			<img src="/storage/g/tiny-fishing/logo.png" alt="Tiny Fishing">
+			<div class="label">Tiny Fishing</div>
+	</div>
+	<div class="image-item app-item" data-label="Bitlife">
+		<a href="/iframe/?url=/storage/g/bitlife/">
+			<img src="/storage/g/bitlife/logo.png" alt="Bitlife">
+			<div class="label">Bitlife</div>
+	</div>
+    <div class="image-item app-item" data-label="Binding Of Isaac">
+        <a href="/iframe/?url=/storage/g/binding-of-isaac/">
+            <img src="/storage/g/binding-of-isaac/logo.png" alt="Binding Of Isaac">
+            <div class="label">Binding Of Isaac</div>
+    </div>
+    <div class="image-item app-item" data-label="FNAF">
+        <a href="/iframe/?url=/storage/g/fnaf/">
+            <img src="/storage/g/fnaf/logo.jpg" alt="FNAF">
+            <div class="label">FNAF</div>
+    </div>
+    <div class="image-item app-item" data-label="FNAF 2">
+        <a href="/iframe/?url=/storage/g/fnaf2/">
+            <img src="/storage/g/fnaf2/logo.jpg" alt="FNAF 2">
+            <div class="label">FNAF 2</div>
+    </div>
+    <div class="image-item app-item" data-label="FNAF 3">
+        <a href="/iframe/?url=/storage/g/fnaf3/">
+            <img src="/storage/g/fnaf3/logo.webp" alt="FNAF 3">
+            <div class="label">FNAF 3</div>
+    </div>
+    <div class="image-item app-item" data-label="FNAF 4">
+        <a href="/iframe/?url=/storage/g/fnaf4/">
+            <img src="/storage/g/fnaf4/logo.webp" alt="FNAF 4">
+            <div class="label">FNAF 4</div>
+    </div>
+    <div class="image-item app-item" data-label="Celeste">
+        <a href="/iframe/?url=/storage/g/celeste/">
+            <img src="/storage/g/celeste/logo.png" alt="Celeste">
+            <div class="label">Celeste</div>
+    </div>
+    <div class="image-item app-item" data-label="Circlo">
+        <a href="/iframe/?url=/storage/g/circlo/">
+            <img src="/storage/g/circlo/img/download.png" alt="Circlo">
+            <div class="label">Circlo</div>
+    </div>
+    <div class="image-item app-item" data-label="Ragdoll Archers">
+        <a href="/iframe/?url=/storage/g/ragdoll-archers/">
+            <img src="/storage/g/ragdoll-archers/icon.jpeg" alt="Ragdoll Archers">
+            <div class="label">Ragdoll Archers</div>
+    </div>
+    <div class="image-item app-item" data-label="Breaking the bank">
+        <a href="/iframe/?url=/storage/g/breaking-the-bank/">
+            <img src="/storage/g/breaking-the-bank/breakingthebank.png" alt="Breaking the bank">
+            <div class="label">Breaking the bank</div>
+    </div>
+    <div class="image-item app-item" data-label="Superhot">
+        <a href="/iframe/?url=/storage/g/superhot/">
+            <img src="/storage/g/superhot/hot.jpg" alt="Superhot">
+            <div class="label">Superhot</div>
+    </div>
+    <div class="image-item app-item" data-label="Five Nights At Winston's">
+        <a href="/iframe/?url=/storage/g/fnaw/">
+            <img src="/storage/g/fnaw/logo.png" alt="Five Nights At Winston's">
+            <div class="label">Five Nights At Winston's</div>
+    </div>
+
+    <div class="image-item app-item" data-label="A Dark Room">
+        <a href="/iframe/?url=/storage/g/adarkroom/">
+            <img src="/storage/g/adarkroom/logo.jpeg" alt="A Dark Room">
+            <div class="label">A Dark Room</div>
+    </div>
+    <div class="image-item app-item" data-label="Line Rider">
+        <a href="/iframe/?url=/storage/g/line-rider/">
+            <img src="/storage/g/line-rider/logo.png" alt="Line Rider">
+            <div class="label">Line Rider</div>
+    </div>
+     <div class="image-item app-item" data-label="We Become What We Behold">
+        <a href="/iframe/?url=/storage/g/wbwwb/">
+            <img src="/storage/g/wbwwb/logo.jpeg" alt="We Become What We Behold">
+            <div class="label">We Become What We Behold</div>
+    </div>
+    <div class="image-item app-item" data-label="Build Now GG">
+        <a href="/iframe/?url=/storage/g/buildnowgg/">
+            <img src="/storage/g/buildnowgg/logo.png" alt="Build Now GG">
+            <div class="label">Build Now GG</div>
+    </div>
+    <div class="image-item app-item" data-label="1v1lol">
+        <a href="/iframe/?url=/storage/g/1v1lol/">
+            <img src="/storage/g/1v1lol/splash.png" alt="1v1lol">
+            <div class="label">1v1lol</div>
+    </div>
+     <div class="image-item app-item" data-label="Doom">
+        <a href="/iframe/?url=/storage/g/doom/public/">
+            <img src="/storage/g/doom/public/img/logo.png" alt="Doom">
+            <div class="label">Doom</div>
+    </div>
+     <div class="image-item app-item" data-label="Rooftop Snipers">
+        <a href="/iframe/?url=/storage/g/rooftop-snipers/">
+            <img src="/storage/g/rooftop-snipers/img/thumb.png" alt="Rooftop Snipers">
+            <div class="label">Rooftop Snipers</div>
+    </div>
+     <div class="image-item app-item" data-label="Rooftop Snipers 2">
+        <a href="/iframe/?url=/storage/g/rooftop-snipers-2/">
+            <img src="/storage/g/rooftop-snipers-2/logo.png" alt="Rooftop Snipers 2">
+            <div class="label">Rooftop Snipers 2</div>
+        </div>
+    </div>
+    <script>
+        // Function to update the search bar placeholder
+        function updateSearchPlaceholder() {
+            const gameItems = document.querySelectorAll('.image-item').length;
+            const searchInput = document.getElementById('game-search-input');
+            searchInput.placeholder = `Search ${gameItems - 1} games`;
+        }
+
+        // Initiajl update
+        updateSearchPlaceholder();
+
+        // Add event listener to update the placeholder when new game icons are added i also hate this
+        const config = { childList: true };
+        const observer = new MutationObserver(updateSearchPlaceholder);
+        observer.observe(document.querySelector('.container'), config);
+
+        document.querySelector('.toggle').addEventListener('click', function() {
+            document.querySelector('.navbar').classList.toggle('active');
+        });
+
+        document.getElementById('game-search-input').addEventListener('input', function() {
+            var filter = this.value.toLowerCase();
+            var gameItems = document.querySelectorAll('.image-item');
+
+            gameItems.forEach(function(item) {
+                var label = item.getAttribute('data-label').toLowerCase();
+                if (label.includes(filter)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none'; 
+                }
+            });
+        });
+    </script>
+    <script>
+    // Fetch the status from switch.json
+    fetch('/down/switch.json')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'off') {
+                // Set background to white and hide content
+                document.body.style.backgroundColor = 'white';
+                document.body.innerHTML = ''; // Clear the page content
+            }
+            // If "on", the page behaves normally (do nothing)
+        })
+        .catch(error => console.error('Error fetching switch.json:', error));
+</script>
+    <script src="down/function.js"></script>
+</body>
+</html>
