@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>SoupCan</title>
+<link href="/brand/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+<!-- meta data -->
+<meta content="SoupCan" property="og:title"/>
+<meta content="At SoupCan, we are dedicated to providing a comprehensive collection of educational resources designed to support students, educators, and lifelong learners." property="og:description"/>
+<meta content="/brand/favicon.ico" property="og:image"/>
+<meta content="100" property="og:image:width"/>
+<meta content="100" property="og:image:height"/>
+<style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #111010;
+            color: white;
+            overflow: auto;
+        }
+        .navbar {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            background: #111010;
+            position: fixed;
+            top: 0;
+            height: 44px;
+            width: 100%;
+            z-index: 1000;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-links li {
+            margin-left: 20px;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            transition: background 0.3s;
+        }
+        .nav-links a:hover {
+            background: #575757;
+            border-radius: 4px;
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-direction: column;
+                display: none;
+                width: 100%;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                background: #111;
+            }
+            .navbar.active .nav-links {
+                display: flex;
+            }
+            .toggle {
+                display: block;
+                cursor: pointer;
+                color: white;
+                font-size: 24px;
+            }
+        }
+        .toggle {
+            display: none;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            margin-top: 60px;
+            flex-wrap: wrap;
+            overflow-x: auto;
+        }
+        .image-item {
+            position: relative;
+            cursor: pointer;
+            text-align: center;
+            width: 80%;
+            max-width: 150px;
+            margin: 0 10px;
+        }
+        .image-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.3s, filter 0.3s;
+        }
+        .image-item:hover img {
+            transform: scale(1.05);
+            filter: blur(3px);
+        }
+        .label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.3s;
+        }
+        .image-item:hover .label {
+            visibility: visible;
+            opacity: 1;
+        }
+        .app-item {
+            margin-top: 30px;
+        }
+        #game-search-form {
+            text-align: center;
+            margin-top: 60px;
+            border-radius: 10px;
+        }
+        #game-searchbar {
+            display: inline-block;
+            position: relative;
+            width: 300px;
+            height: 40px;
+            border: transparent;
+            background-color: #222222;
+            border-radius: 10px;
+        }
+        #game-search-input {
+            width: calc(100% - 40px);
+            height: 100%;
+            padding-left: 40px;
+            border: none;
+            outline: none;
+            background-color: #222222;
+            color: #FFF;
+            font-size: 1rem;
+            border-radius: 10px;
+        }
+        #game-search-icon {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translate(0, -50%);
+            color: #FFFFFF;
+            font-size: 1.5rem;
+        }
+        /* Star Button Styles */
+        #star-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            font-size: 40px;
+            cursor: pointer;
+            color: white;
+            transition: color 0.3s;
+        }
+
+        #star-button.filled {
+            color: white;
+        }
+    </style>
+<script src="/js/close-tab.js"></script>
+</head>
+<body>
+<div id="particles-js"></div>
+<nav class="navbar">
+<div class="toggle" onclick="document.querySelector('.navbar').classList.toggle('active')">☰</div>
+<ul class="nav-links">
+<li><a href="/index.html"><i class="fa-solid fa-house"></i></a></li>
+<li><a href="/g.html"><i class="fa-solid fa-gamepad"></i></a></li>
+<li><a href="/a.html"><i class="fa-solid fa-table-cells"></i></a></li>
+<li><a href="/s.html"><i class="fa-solid fa-cog"></i></a></li>
+<li><a href="/p.html"><i class="fa-solid fa-handshake"></i></a></li>
+<li><a href="/e/"><i class="fa-solid fa-plus"></i></a></li>
+</ul>
+</nav>
+<form autocapitalize="off" autocomplete="off" id="game-search-form">
+<div id="game-searchbar">
+<i class="fas fa-search" id="game-search-icon"></i>
+<input id="game-search-input" placeholder="Search games" type="text"/>
+</div>
+</form>
+<div class="container"><div>Loading games...</div></div>
+<script>
+        // Function to update the search bar placeholder
+        function updateSearchPlaceholder() {
+            const gameItems = document.querySelectorAll('.image-item').length;
+            const searchInput = document.getElementById('game-search-input');
+            searchInput.placeholder = `Search ${gameItems - 1} games`;
+        }
+
+        // Initiajl update
+        updateSearchPlaceholder();
+
+        // Add event listener to update the placeholder when new game icons are added i also hate this
+        const config = { childList: true };
+        const observer = new MutationObserver(updateSearchPlaceholder);
+        observer.observe(document.querySelector('.container'), config);
+
+        document.querySelector('.toggle').addEventListener('click', function() {
+            document.querySelector('.navbar').classList.toggle('active');
+        });
+
+        document.getElementById('game-search-input').addEventListener('input', function() {
+            var filter = this.value.toLowerCase();
+            var gameItems = document.querySelectorAll('.image-item');
+
+            gameItems.forEach(function(item) {
+                var label = item.getAttribute('data-label').toLowerCase();
+                if (label.includes(filter)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none'; 
+                }
+            });
+        });
+    </script>
+<script>
+    // Fetch the status from switch.json
+    fetch('/down/switch.json')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'off') {
+                // Set background to white and hide content
+                document.body.style.backgroundColor = 'white';
+                document.body.innerHTML = ''; // Clear the page content
+            }
+            // If "on", the page behaves normally (do nothing)
+        })
+        .catch(error => console.error('Error fetching switch.json:', error));
+</script>
+<script src="down/function.js"></script>
+<script>
+fetch('games.json')
+  .then(response => response.json())
+  .then(games => {
+    const container = document.querySelector('.container');
+    container.innerHTML = ''; // clear existing items
+
+    games.forEach(game => {
+      const div = document.createElement('div');
+      div.className = 'image-item app-item';
+      div.setAttribute('data-label', game.label);
+
+      div.innerHTML = `
+        <a href="${game.link}">
+          <img src="${game.image}" alt="${game.alt}">
+          <div class="label">${game.label}</div>
+        </a>
+      `;
+      container.appendChild(div);
+    });
+  })
+  .catch(error => console.error('Failed to load games:', error));
+</script></body>
+</html>
