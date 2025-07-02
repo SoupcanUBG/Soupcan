@@ -647,4 +647,16 @@
     "image": "/storage/g/rooftop-snipers-2/logo.png",
     "alt": "Rooftop Snipers 2"
   }
+  {
+    "label": "Zombie Shooter",
+    "link": "/iframe/?url=/storage/g/zombie-shooter/",
+    "image": "/storage/g/zombie-shooter/logo.png",
+    "alt": "Zombie Shooter"
+  }
+  {
+    "label": "Zombie Shooter 2",
+    "link": "/iframe/?url=/storage/g/zombie-shooter-2/",
+    "image": "/storage/g/zombie-shooter-2/logo.png",
+    "alt": "Zombie Shooter 2"
+  }
 ]
